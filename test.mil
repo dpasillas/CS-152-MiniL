@@ -1,0 +1,4 @@
+** Line 4: Variable `n` already defined!
+** Line 7, position 13: variable `z` has not been defined.
+** Line 8, position 16: variable `r` is an array.
+** Line 10, Position 10: Break statement outside of loop.

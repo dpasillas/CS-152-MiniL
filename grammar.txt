@@ -1,0 +1,103 @@
+Program ->
+  PROGRAM IDENT SEMICOLON Block END_PROGRAM
+
+Block ->
+  BlockDeclarationLoop BEGIN_PROGRAM BlockStatmentLoop
+
+BlockDeclarationLoop ->
+  EPSILON 
+| Declaration SEMICOLON BlockDeclarationLoop
+
+BlockStatmentLoop ->
+  EPSILON 
+| Statement SEMICOLON BlockStatmentLoop
+
+Declaration ->
+  DeclarationIdentLoop COLON INTEGER 
+| DeclarationIdentLoop COLON ARRAY L_PAREN NUMBER R_PAREN OF INTEGER
+
+DeclarationIdentLoop ->
+  IDENT DILE
+  
+DILE ->
+  COMMA DeclarationIdentLoop
+
+Statement ->
+  Var ASSIGN Expression
+| Bool_Exp QUESTION Expression COLON Expression
+| IF Bool_Exp THEN BlockStatmentLoop S_Else
+| WHILE Bool_Exp BEGINLOOP BlockStatmentLoop ENDLOOP 
+| READ DeclarationIdentLoop 
+| WRITE DeclarationIdentLoop 
+| BREAK 
+| CONTINUE 
+| EXIT
+
+S_Else ->
+  ELSE BlockStatmentLoop ENDIF
+| ENDIF
+
+Bool_Exp ->
+  Relation_And_Exp Bool_ExpLoop
+
+Bool_ExpLoop ->
+  EPSILON 
+| OR Relation_And_Exp Bool_ExpLoop
+
+Relation_And_Exp ->
+  Relation_Exp Relation_And_ExpLoop
+
+Relation_And_ExpLoop ->
+  EPSILON 
+| AND Relation_Exp Relation_And_ExpLoop
+
+Relation_Exp ->
+  Expression Comp Expression 
+| TRUE 
+| FALSE 
+| L_PAREN Bool_Exp R_PAREN 
+| NOT Expression Comp Expression 
+| NOT TRUE 
+| NOT FALSE 
+| NOT L_PAREN Bool_Exp R_PAREN
+
+Comp ->
+  EQ 
+| NEQ 
+| LT 
+| GT 
+| LTE 
+| GTE
+
+Expression ->
+  Multiplicative_Exp ExpressionLoop
+
+ExpressionLoop ->
+  EPSILON 
+| ADD Multiplicative_Exp ExpressionLoop 
+| SUB Multiplicative_Exp ExpressionLoop
+
+Multiplicative_Exp ->
+  Term Multiplicative_ExpLoop 
+| Term
+
+Term ->
+  Factor 
+| SUB Factor
+
+Multiplicative_ExpLoop ->
+  EPSILON 
+| MULT Term Multiplicative_ExpLoop 
+| DIV Term Multiplicative_ExpLoop 
+| MOD Term Multiplicative_ExpLoop
+
+Factor ->
+  Var 
+| NUMBER 
+| L_PAREN Expression R_PAREN
+
+Var ->
+  IDENT 
+| IDENT L_PAREN Expression R_PAREN
+
+
